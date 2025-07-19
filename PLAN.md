@@ -16,7 +16,6 @@ This personal MCP server is designed to provide coding guidelines to AI agents v
     *   A single YAML file located at the project root.
     *   Defines all available guides, including both local Markdown files and remote URLs.
     *   Each guide entry specifies its unique `id`, `name`, `description`, `topics` (for categorization), and `source` (local path or remote URL).
-    *   This decouples metadata from content, allowing flexible management of diverse content sources.
 
 2.  **`FastMCP` Server (`main.py`):
     *   The core Python application built using `mcp.server.fastmcp`.
@@ -48,12 +47,12 @@ AI agents will interact with the server by first calling `list_guides()` to disc
 
 ## 3. Scaffolding the Project Environment
 
-1.  Ensure the `guides/` directory exists and contains sample Markdown files.
-2.  Create a `guides.yaml` file at the project root, defining all guides (local and remote) and their metadata.
-3.  Add `pyyaml` ([PyYAML Documentation](https://pyyaml.org/wiki/PyYAMLDocumentation)), `httpx` ([httpx Documentation](https://www.python-httpx.org/)), `pytest` ([pytest Documentation](https://docs.pytest.org/en/stable/)), and `pydantic` ([Pydantic Documentation](https://docs.pydantic.dev/latest/)) to `pyproject.toml` as dependencies.
-4.  Create a `tests/` directory at the project root.
-5.  Configure `pyproject.toml` with a production start script (e.g., `start = "uvicorn main:app --host 0.0.0.0 --port 8000"`).
-6.  Update `README.md` with clear instructions on how to run and use the server, including how to run tests.
+1.  **DONE** Ensure the `guides/` directory exists and contains sample Markdown files.
+2.  **DONE** Create a `guides.yaml` file at the project root, defining all guides (local and remote) and their metadata.
+3.  **DONE** Add `pyyaml` ([PyYAML Documentation](https://pyyaml.org/wiki/PyYAMLDocumentation)), `httpx` ([httpx Documentation](https://www.python-httpx.org/)), `pytest` ([pytest Documentation](https://docs.pytest.org/en/stable/)), and `pydantic` ([Pydantic Documentation](https://docs.pydantic.dev/latest/)) to `pyproject.toml` as dependencies.
+4.  **DONE** Create a `tests/` directory at the project root.
+5.  **DONE** Configure `pyproject.toml` with a production start script (e.g., `start = "uvicorn main:app --host 0.0.0.0 --port 8000"`).
+6.  **DONE** Update `README.md` with clear instructions on how to run and use the server, including how to run tests.
 
 ## 4. Implementation Steps for the Developer
 

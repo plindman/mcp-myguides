@@ -1,5 +1,7 @@
 ### Development Plan: Personal MCP Server (Revised)
 
+**Developer Reference:** All development should be guided by the official **[Model Context Protocol Server Quickstart](https://modelcontextprotocol.io/quickstart/server)**.
+
 This plan outlines the steps to create a personal MCP server for your coding guidelines, following the `FastMCP` approach from the official documentation.
 
 **Phase 1: Dynamic Content from Local Files**

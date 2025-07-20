@@ -47,13 +47,15 @@ AI agents will interact with the server by first calling `list_guides()` to disc
 2.  **DONE** Create a `guides.yaml` file at the project root, defining all guides (local and remote) and their metadata.
 3.  **DONE** Add `pyyaml` ([PyYAML Documentation](https://pyyaml.org/wiki/PyYAMLDocumentation)), `httpx` ([httpx Documentation](https://www.python-httpx.org/)), `pytest` ([pytest Documentation](https://docs.pytest.org/en/stable/)), and `pydantic` ([Pydantic Documentation](https://docs.pydantic.dev/latest/)) to `pyproject.toml` as dependencies.
 4.  **DONE** Create a `tests/` directory at the project root.
-5.  Create `src/` directory and `src/__init__.py` to establish the `src` package.
-6.  Create `__init__.py` in the project root to make it a Python package.
-7.  Create `main.py` with a minimal `FastMCP` app instance and `app.run()` call.
-8.  Create `src/tools.py` and implement the `health()` tool within it.
-9.  Modify `main.py` to import and register the `health()` tool from `src.tools`.
-10. Configure `pyproject.toml` with a production start script (e.g., `start = "uvicorn main:app --host 0.0.0.0 --port 8000"`).
-11. Update `README.md` with clear instructions on how to run and use the server, including how to run tests.
+5.  **DONE** Create `src/` directory and `src/__init__.py` to establish the `src` package.
+6.  **DONE** Create `__init__.py` in the project root to make it a Python package.
+7.  **DONE** Create `main.py` with a minimal `FastMCP` app instance and `app.run()` call.
+8.  **DONE** Create `src/tools.py` and implement the `health()` tool within it.
+9.  **DONE** Modify `main.py` to import and register the `health()` tool from `src.tools`.
+10. **DONE** Create `tests/test_app.py` with a basic `pytest` test for the `health()` tool, using the `FastMCPClient` in-memory. This test will confirm the `FastMCP` app is running and testable.
+11. **DONE** Verify Minimal App: Run `pytest` to confirm the core `FastMCP` setup and testing environment are working correctly.
+12. **DONE** Configure `pyproject.toml` with a production start script (e.g., `start = "uvicorn main:app --host 0.0.0.0 --port 8000"`).
+13. **DONE** Update `README.md` with clear instructions on how to run and use the server, including how to run tests.
 
 ## 4. Implementation Steps for the Developer
 

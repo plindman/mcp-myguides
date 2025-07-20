@@ -19,12 +19,8 @@ This personal MCP server is designed to provide coding guidelines to AI agents v
 
 2.  **`FastMCP` Server (`main.py`):
     *   The core Python application built using `mcp.server.fastmcp`.
-    *   On startup, it reads and parses `guides.yaml` to load all guide metadata and content into an in-memory data structure.
-    *   Exposes three primary MCP tools for agents:
-        *   **`list_guides()`:** Returns a list of all available guides, providing their `id`, `name`, `description`, and `topics`. This enables agents to discover relevant guidelines.
-        *   **`get_guide_by_id(guide_id: str)`:** Retrieves the full Markdown content of a specific guide identified by its unique `id`.
-        *   **`get_guides_by_topic(topic: str)`:** Returns a list of guides (metadata only) that are associated with a given `topic`, allowing agents to find guides related to a particular area (e.g., "python", "security").
-        *   **`health()`:** A simple tool to confirm the server is running and responsive.
+    *   Serves as the application entry point, responsible for initializing the `FastMCP` app and registering tools from various modules within the `src/` directory.
+    *   On startup, it will orchestrate the loading and parsing of `guides.yaml` into an in-memory data structure.
 
 3.  **Content Fetching Logic:**
     *   Integrated within the server's startup process.
@@ -51,37 +47,38 @@ AI agents will interact with the server by first calling `list_guides()` to disc
 2.  **DONE** Create a `guides.yaml` file at the project root, defining all guides (local and remote) and their metadata.
 3.  **DONE** Add `pyyaml` ([PyYAML Documentation](https://pyyaml.org/wiki/PyYAMLDocumentation)), `httpx` ([httpx Documentation](https://www.python-httpx.org/)), `pytest` ([pytest Documentation](https://docs.pytest.org/en/stable/)), and `pydantic` ([Pydantic Documentation](https://docs.pydantic.dev/latest/)) to `pyproject.toml` as dependencies.
 4.  **DONE** Create a `tests/` directory at the project root.
-5.  **DONE** Create `main.py` with a minimal `FastMCP` app and a `health()` tool. This will serve as the initial runnable application to verify the core setup.
-6.  Create `tests/test_app.py` with a basic `pytest` test for the `health()` tool, using the `FastMCPClient` in-memory. This test will confirm the `FastMCP` app is running and testable.
-7.  Verify Minimal App: Run `pytest` to confirm the core `FastMCP` setup and testing environment are working correctly.
-8.  **DONE** Configure `pyproject.toml` with a production start script (e.g., `start = "uvicorn main:app --host 0.0.0.0 --port 8000"`).
-9.  **DONE** Update `README.md` with clear instructions on how to run and use the server, including how to run tests.
+5.  Create `src/` directory and `src/__init__.py` to establish the `src` package.
+6.  Create `__init__.py` in the project root to make it a Python package.
+7.  Create `main.py` with a minimal `FastMCP` app instance and `app.run()` call.
+8.  Create `src/tools.py` and implement the `health()` tool within it.
+9.  Modify `main.py` to import and register the `health()` tool from `src.tools`.
+10. Create `tests/test_app.py` with a basic `pytest` test for the `health()` tool, using the `FastMCPClient` in-memory.
+11. Verify Minimal App: Run `pytest` to confirm the core `FastMCP` setup and testing environment are working correctly.
+12. **DONE** Configure `pyproject.toml` with a production start script (e.g., `start = "uvicorn main:app --host 0.0.0.0 --port 8000"`).
+13. **DONE** Update `README.md` with clear instructions on how to run and use the server, including how to run tests.
 
 ## 4. Implementation Steps for the Developer
 
-1.  **Set up Testing Environment and Initial Tests:**
-    *   Create `tests/test_guides.py`.
-    *   Write basic unit tests for the `load_all_guides_data()` function (even if it's just a placeholder for now).
-    *   Write initial integration tests using `pytest` and the `FastMCP` client, passing the `FastMCP` app instance to the client for in-memory testing. Refer to [FastMCP Testing Patterns](https://gofastmcp.com/patterns/testing) for examples.
-    *   **Run Tests:** Execute `pytest` to confirm the test setup is working.
-    *   **Eager Commit:** Commit your changes after completing this step.
-
-2.  **Implement Core Discovery and Retrieval Tools and Metadata Validation:**
-    *   Modify `main.py` to initialize `FastMCP`.
-    *   Define Pydantic models for guide metadata (e.g., `GuideMetadata` with fields for `id`, `name`, `description`, `topics`, `source`).
-    *   Implement the `load_all_guides_data()` function that:
-        *   Reads and parses `guides.yaml`.
+1.  **Implement Guide Data Loading and Validation:**
+    *   Create `src/models.py` and define Pydantic models for guide metadata (e.g., `GuideMetadata` with fields for `id`, `name`, `description`, `topics`, `source`).
+    *   Create `src/data_loader.py` and implement the `load_all_guides_data()` function within it. This function should:
+        *   Read and parse `guides.yaml`.
         *   For each guide entry, validate it using the Pydantic model.
         *   If `source` is a local file path, read the file content.
         *   If `source` is a remote URL, fetch the content using `httpx`.
         *   Store the `id`, `name`, `description`, `topics`, and the fetched `content`.
         *   Return a dictionary mapping `id`s to their full data (metadata + content).
-    *   Define an `@app.tool()` decorated `list_guides()` function that calls `load_all_guides_data()` and returns a list of guide metadata (excluding `content`) for discovery. Each item in the list should include `id`, `name`, `description`, and `topics`.
-    *   Define an `@app.tool()` decorated `get_guide_by_id(guide_id: str)` function that retrieves the full Markdown content of the specified guide by its `id` from the loaded data.
-    *   Define an `@app.tool()` decorated `get_guides_by_topic(topic: str)` function that filters the loaded data by `topic` (ensuring topic names are normalized to lowercase for comparison) and returns a list of matching guides (e.g., their `id`, `name`, `description`, and `topics`).
-    *   Define an `@app.tool()` decorated `health()` function that returns a fixed status string (e.g., "OK").
-    *   Ensure `app.run()` is called in the `if __name__ == "__main":` block.
-    *   **Run Tests:** Execute `pytest` to ensure all implemented tools function correctly, including tests for metadata validation and the new `health` tool.
+    *   Modify `main.py` to call `load_all_guides_data()` on startup and store the loaded data.
+    *   Create `tests/test_data_loader.py` and write unit tests for `load_all_guides_data()` and Pydantic validation.
+    *   **Run Tests:** Execute `pytest` to ensure data loading and validation function correctly.
+    *   **Eager Commit:** Commit your changes after completing this step.
+
+2.  **Implement Core Discovery and Retrieval Tools:**
+    *   Implement `list_guides()`, `get_guide_by_id()`, and `get_guides_by_topic()` in `src/tools.py`.
+    *   Ensure topic names are normalized to lowercase for comparison in `get_guides_by_topic()`.
+    *   Modify `main.py` to register these new tools from `src.tools`.
+    *   Create `tests/test_tools.py` and write integration tests for these tools using the `FastMCPClient`.
+    *   **Run Tests:** Execute `pytest` to ensure all implemented tools function correctly.
     *   **Eager Commit:** Commit your changes after completing this step.
 
 3.  **Test Deployment:**

@@ -52,10 +52,8 @@ AI agents will interact with the server by first calling `list_guides()` to disc
 7.  Create `main.py` with a minimal `FastMCP` app instance and `app.run()` call.
 8.  Create `src/tools.py` and implement the `health()` tool within it.
 9.  Modify `main.py` to import and register the `health()` tool from `src.tools`.
-10. Create `tests/test_app.py` with a basic `pytest` test for the `health()` tool, using the `FastMCPClient` in-memory.
-11. Verify Minimal App: Run `pytest` to confirm the core `FastMCP` setup and testing environment are working correctly.
-12. **DONE** Configure `pyproject.toml` with a production start script (e.g., `start = "uvicorn main:app --host 0.0.0.0 --port 8000"`).
-13. **DONE** Update `README.md` with clear instructions on how to run and use the server, including how to run tests.
+10. Configure `pyproject.toml` with a production start script (e.g., `start = "uvicorn main:app --host 0.0.0.0 --port 8000"`).
+11. Update `README.md` with clear instructions on how to run and use the server, including how to run tests.
 
 ## 4. Implementation Steps for the Developer
 
@@ -76,6 +74,7 @@ AI agents will interact with the server by first calling `list_guides()` to disc
 2.  **Implement Core Discovery and Retrieval Tools:**
     *   Implement `list_guides()`, `get_guide_by_id()`, and `get_guides_by_topic()` in `src/tools.py`.
     *   Ensure topic names are normalized to lowercase for comparison in `get_guides_by_topic()`.
+    *   Include testing for the `health()` tool in `tests/test_tools.py`.
     *   Modify `main.py` to register these new tools from `src.tools`.
     *   Create `tests/test_tools.py` and write integration tests for these tools using the `FastMCPClient`.
     *   **Run Tests:** Execute `pytest` to ensure all implemented tools function correctly.

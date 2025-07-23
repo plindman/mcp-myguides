@@ -3,8 +3,8 @@ from src.server import get_app
 
 app = get_app()
 
-def main():
+def start():
     app.run()
 
 if __name__ == "__main__":
-    main()
+    start()

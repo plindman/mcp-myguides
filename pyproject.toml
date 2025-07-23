@@ -15,7 +15,7 @@ dependencies = [
 ]
 
 [project.scripts]
-start = "main:main"
+start = "main:start"
 
 [tool.pytest.ini_options]
 pythonpath = "."

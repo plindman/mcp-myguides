@@ -1,3 +1,3 @@
-from main import main
+from .main import start
 if __name__ == "__main__":
-    main()
+    start()

@@ -15,7 +15,7 @@ dependencies = [
 ]
 
 [project.scripts]
-start = "mcp-myguides.main:main"
+start = "main:main"
 
 [tool.pytest.ini_options]
 pythonpath = "."

@@ -20,4 +20,12 @@ mcp-myguides-server = "main:start"
 [tool.pytest.ini_options]
 pythonpath = "."
 
+[build-system]
+requires = ["setuptools>=61.0"] # Ensure setuptools is the backend
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+# This tells setuptools to treat the current directory (project root)
+# as a package, making 'main.py' discoverable as 'main' module.
+packages = ["."]
 

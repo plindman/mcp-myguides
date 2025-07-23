@@ -1,8 +1,7 @@
-from fastmcp import FastMCP
-from src.tools import register_tools
+""" Entry point for the MCP server. """
+from src.server import get_app
 
-app = FastMCP()
-register_tools(app)
+app = get_app()
 
 if __name__ == "__main__":
     app.run()

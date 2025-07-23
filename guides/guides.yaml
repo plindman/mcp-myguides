@@ -2,7 +2,7 @@
   name: Sample Guide 1
   description: A basic sample guide for testing.
   topics: [general, testing]
-  source: guides/sample_guide_1.md
+  source: sample_guide_1.md
 - id: fastmcp-quickstart
   name: FastMCP Quickstart
   description: Official quickstart guide for FastMCP.

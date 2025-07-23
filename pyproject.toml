@@ -1,6 +1,6 @@
 [project]
 name = "mcp-myguides"
-version = "0.1.0"
+version = "0.1.1"
 description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.12"
@@ -14,18 +14,15 @@ dependencies = [
     "pydantic-settings>=2.10.1",
 ]
 
-[project.scripts]
-mcp-myguides-server = "main:start"
-
 [tool.pytest.ini_options]
 pythonpath = "."
 
+[project.scripts]
+mcp-myguides-server = "main:start"
+
 [build-system]
-requires = ["setuptools>=61.0"] # Ensure setuptools is the backend
+requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
-[tool.setuptools]
-# This tells setuptools to treat the current directory (project root)
-# as a package, making 'main.py' discoverable as 'main' module.
-packages = ["."]
-
+[tool.setuptools.packages.find]
+where = ["."]

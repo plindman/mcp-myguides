@@ -1,14 +1,12 @@
 from fastmcp import FastMCP
 from typing import Optional
+from src.config.settings import get_settings
 
-# TODO: app settings from common pydantic settings for app
-# name, instructions, ...
-
-# Initialize the app instance as None
 _app_instance: Optional[FastMCP] = None
 
 def get_app() -> FastMCP:
     global _app_instance
     if _app_instance is None:
-        _app_instance = FastMCP()
+        settings = get_settings()
+        _app_instance = FastMCP(name=settings.APP_NAME, instructions=settings.APP_INSTRUCTIONS)
     return _app_instance

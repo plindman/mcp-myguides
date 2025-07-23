@@ -15,7 +15,7 @@ dependencies = [
 ]
 
 [project.scripts]
-mcp-server = "main:app"
+mcp-server = "fastmcp run main.py"
 
 [tool.pytest.ini_options]
 pythonpath = "."

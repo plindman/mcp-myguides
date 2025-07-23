@@ -5,6 +5,8 @@ from mcp_myguides.core.models import GuideMetadata, Guide
 from pydantic import ValidationError
 from mcp_myguides.services.guide_loader import load_guide_content
 from mcp_myguides.config.settings import get_settings
+import importlib.resources
+import mcp_myguides
 
 _guide_repository_instance: Optional['GuideRepository'] = None
 
@@ -22,8 +24,18 @@ class GuideRepository:
     """
     def __init__(self):
         settings = get_settings()
-        self.guides_yaml_path = settings.guides_yaml_path
-        self.base_path = settings.GUIDES_BASE_PATH
+        
+        # Determine if running from installed package or development environment
+        # This is a heuristic: if the guides_yaml_path from settings is a file,
+        # assume development/test. Otherwise, try to load from package resources.
+        if settings.guides_yaml_path.is_file():
+            self.guides_yaml_path = settings.guides_yaml_path
+            self.base_path = settings.GUIDES_BASE_PATH
+        else:
+            # Assume running from an installed package, load from resources
+            self.guides_yaml_path = importlib.resources.files(mcp_myguides) / "guides" / settings.GUIDES_YAML_FILENAME
+            self.base_path = importlib.resources.files(mcp_myguides) / "guides"
+
         self.guides: Dict[str, GuideMetadata] = {}
         self.content_cache: Dict[str, str] = {}
 
@@ -32,6 +44,11 @@ class GuideRepository:
         Parses the guides.yaml file and loads only guide metadata into memory.
         Content is loaded lazily.
         """
+        # Ensure the file exists before trying to open it
+        if not self.guides_yaml_path.is_file():
+            print(f"Error: guides.yaml not found at {self.guides_yaml_path}")
+            return
+
         with open(self.guides_yaml_path, 'r') as f:
             config = yaml.safe_load(f)
 

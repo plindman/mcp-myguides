@@ -25,5 +25,8 @@ mcp-myguides-server = "mcp_myguides.main:start"
 requires = ["hatchling"]
 build-backend = "hatchling.build"
 
+[tool.hatch.build]
+include = ["guides/"]
+
 [tool.hatch.build.targets.wheel]
 packages = ["src/mcp_myguides"]

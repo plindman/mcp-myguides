@@ -1,66 +1,77 @@
+
 import json
 import pytest
-import pytest_asyncio
 from fastmcp import Client
 
 @pytest.mark.asyncio
-async def test_health_tool(mcp_client):
+async def test_health_tool(mcp_client: Client):
+    """Tests that the health check tool returns OK."""
     response = await mcp_client.call_tool("health")
     assert response.content[0].text == "OK"
 
 @pytest.mark.asyncio
-async def test_list_guides_tool(mcp_client):
-    response = await mcp_client.call_tool("list_guides")
-    guides = json.loads(response.content[0].text) # Assuming the tool returns a list of GuideMetadata as JSON string
-
-    assert isinstance(guides, list)
-    assert len(guides) > 0 # Assuming there's at least one guide in guides.yaml
-    assert all(isinstance(g, dict) for g in guides) # FastMCP serializes Pydantic models to dicts
-    assert all("id" in g and "name" in g for g in guides)
-
-    # Test filtering by topic (assuming 'test' is a topic in your sample guides)
-    response_filtered = await mcp_client.call_tool("list_guides", arguments={"topic": "testing"})
-    filtered_guides = json.loads(response_filtered.content[0].text)
-    assert isinstance(filtered_guides, list)
-    assert len(filtered_guides) > 0
-    assert all("testing" in g.get("topics", []) for g in filtered_guides)
-
-@pytest.mark.asyncio
-async def test_guide_resource_access(mcp_client):
-    # First, get a guide ID from the list_guides tool
+async def test_list_guides_tool(mcp_client: Client):
+    """Tests the list_guides tool, including topic filtering."""
+    # Test without filtering
     response = await mcp_client.call_tool("list_guides")
     guides = json.loads(response.content[0].text)
 
-    if not guides:
-        pytest.skip("No guides found to test resource access.")
+    assert isinstance(guides, list)
+    assert len(guides) == 1  # We know there is only one guide in the test data
+    assert all(isinstance(g, dict) for g in guides)
+    
+    # Check for the known guide
+    sample_guide = guides[0]
+    assert sample_guide is not None
+    assert sample_guide["name"] == "Sample Guide 1"
 
-    # Take the first guide's ID
-    guide_id = guides[0]["id"]
+    # Test filtering by a known topic
+    response_filtered = await mcp_client.call_tool("list_guides", arguments={"topic": "testing"})
+    filtered_guides = json.loads(response_filtered.content[0].text)
+    
+    assert isinstance(filtered_guides, list)
+    assert len(filtered_guides) == 1
+    assert filtered_guides[0]["id"] == "sample-guide-1"
+    assert "testing" in filtered_guides[0]["topics"]
 
-    # Access the resource directly
+@pytest.mark.asyncio
+async def test_guide_resource_access(mcp_client: Client):
+    """Tests direct access to a guide resource using a known ID."""
+    guide_id = "sample-guide-1"
     resource_path = f"mcp:///guides/{guide_id}"
+    
     resource_content_list = await mcp_client.read_resource(resource_path)
 
     assert isinstance(resource_content_list, list)
-    assert len(resource_content_list) > 0
-    assert isinstance(resource_content_list[0].text, str) # Expecting raw text content
-    assert len(resource_content_list[0].text) > 0 # Content should not be empty
+    assert len(resource_content_list) == 1
+    content = resource_content_list[0].text
+    assert isinstance(content, str)
+    assert "This is a sample guide for testing purposes." in content
 
 @pytest.mark.asyncio
-async def test_non_existent_guide_resource(mcp_client):
+async def test_non_existent_guide_resource(mcp_client: Client):
+    """Tests that accessing a non-existent guide returns empty content."""
     resource_path = "mcp:///guides/non-existent-guide-123"
     resource_content_list = await mcp_client.read_resource(resource_path)
+    
     assert isinstance(resource_content_list, list)
-    assert len(resource_content_list) == 1 # Expecting one resource object
-    assert resource_content_list[0].text == "" # Expecting empty text content
+    assert len(resource_content_list) == 1
+    assert resource_content_list[0].text == ""
 
 @pytest.mark.asyncio
-async def test_get_guides_content_by_topic_tool(mcp_client):
-    # Assuming 'test' is a topic in your sample guides
+async def test_get_guides_content_by_topic_tool(mcp_client: Client):
+    """Tests getting combined guide content by a specific topic."""
     response = await mcp_client.call_tool("get_guides_content_by_topic", arguments={"topic": "testing"})
     content = response.content[0].text
 
     assert isinstance(content, str)
-    assert len(content) > 0
-    # Further assertions can be made if you know specific content to expect
-    # For example, check for a substring that should be present in combined content
+    assert "This is a sample guide for testing purposes." in content
+
+@pytest.mark.asyncio
+async def test_get_guides_content_by_non_existent_topic(mcp_client: Client):
+    """Tests that getting content for a non-existent topic returns an empty string."""
+    response = await mcp_client.call_tool("get_guides_content_by_topic", arguments={"topic": "non-existent-topic-xyz"})
+    content = response.content[0].text
+
+    assert isinstance(content, str)
+    assert content == ""

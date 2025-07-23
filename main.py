@@ -3,5 +3,8 @@ from src.server import get_app
 
 app = get_app()
 
-if __name__ == "__main__":
+def main():
     app.run()
+
+if __name__ == "__main__":
+    main()

@@ -26,7 +26,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [tool.hatch.build]
-include = ["guides/"]
+
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/mcp_myguides"]

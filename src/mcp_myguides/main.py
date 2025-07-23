@@ -1,5 +1,5 @@
 """ Entry point for the MCP server. """
-from src.server import get_app
+from mcp_myguides.server import get_app
 
 app = get_app()
 

@@ -1,7 +1,7 @@
 import pytest
 import pytest_asyncio
 from fastmcp import Client
-from src.server import get_app
+from mcp_myguides.server import get_app
 from pathlib import Path
 
 @pytest_asyncio.fixture

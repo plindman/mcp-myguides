@@ -1,6 +1,6 @@
 from . import get_app
-from src.services.guide_repository import get_guide_repository_instance
-from src.core.models import GuideMetadata
+from mcp_myguides.services.guide_repository import get_guide_repository_instance
+from mcp_myguides.core.models import GuideMetadata
 from typing import List
 import asyncio
 

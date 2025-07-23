@@ -1,6 +1,6 @@
 from fastmcp import FastMCP
 from typing import Optional
-from src.config.settings import get_settings
+from mcp_myguides.config.settings import get_settings
 
 _app_instance: Optional[FastMCP] = None
 

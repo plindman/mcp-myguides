@@ -1,10 +1,10 @@
 import yaml
 from pathlib import Path
 from typing import Dict, List, Optional
-from src.core.models import GuideMetadata, Guide
+from mcp_myguides.core.models import GuideMetadata, Guide
 from pydantic import ValidationError
-from src.services.guide_loader import load_guide_content
-from src.config.settings import get_settings
+from mcp_myguides.services.guide_loader import load_guide_content
+from mcp_myguides.config.settings import get_settings
 
 _guide_repository_instance: Optional['GuideRepository'] = None
 

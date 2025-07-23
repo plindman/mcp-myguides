@@ -1,5 +1,5 @@
 from fastmcp import FastMCP
-from src.services.guide_repository import get_guide_repository_instance
+from mcp_myguides.services.guide_repository import get_guide_repository_instance
 from typing import TYPE_CHECKING
 
 _app_instance: FastMCP | None = None

@@ -369,6 +369,7 @@ dependencies = [
     { name = "pytest" },
     { name = "pytest-asyncio" },
     { name = "pyyaml" },
+    { name = "rich" },
 ]
 
 [package.metadata]
@@ -380,6 +381,7 @@ requires-dist = [
     { name = "pytest" },
     { name = "pytest-asyncio", specifier = ">=1.1.0" },
     { name = "pyyaml" },
+    { name = "rich", specifier = ">=14.0.0" },
 ]
 
 [[package]]

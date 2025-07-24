@@ -14,3 +14,9 @@ def get_app() -> FastMCP:
     register_health_tool(app)
     register_guides_components(app)
     return app
+
+class McpServer:
+    def __init__(self):
+        self.settings = get_settings()
+        self.app = get_app()
+    

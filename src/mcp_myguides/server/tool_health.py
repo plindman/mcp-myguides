@@ -1,7 +1,8 @@
-from . import get_app
+""" Health check tool """
+from fastmcp import FastMCP
 
-app = get_app()
+def register_health_tool(app: FastMCP) -> None:
 
-@app.tool
-async def health() -> str:
-    return "OK"
+    @app.tool
+    async def health() -> str:
+        return "OK"

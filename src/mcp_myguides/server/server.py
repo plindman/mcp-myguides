@@ -1,12 +1,16 @@
 from fastmcp import FastMCP
-from typing import Optional
-from mcp_myguides.config.settings import get_settings
+from functools import lru_cache
+from ..config import get_settings
+from .tool_health import register_health_tool
+from .components_guides import register_guides_components
 
-_app_instance: Optional[FastMCP] = None
-
+@lru_cache
 def get_app() -> FastMCP:
-    global _app_instance
-    if _app_instance is None:
-        settings = get_settings()
-        _app_instance = FastMCP(name=settings.APP_NAME, instructions=settings.APP_INSTRUCTIONS)
-    return _app_instance
+    settings = get_settings()
+    app = FastMCP(
+        name=settings.APP_NAME, 
+        instructions=settings.APP_INSTRUCTIONS
+    )
+    register_health_tool(app)
+    register_guides_components(app)
+    return app

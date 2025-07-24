@@ -1,21 +1,15 @@
 import yaml
 from pathlib import Path
 from typing import Dict, List, Optional
-from mcp_myguides.core.models import GuideMetadata, Guide
 from pydantic import ValidationError
+from functools import lru_cache
+from mcp_myguides.core.models import GuideMetadata, Guide
 from mcp_myguides.services.guide_loader import load_guide_content
-from mcp_myguides.config.settings import get_settings
-import importlib.resources
-import mcp_myguides
+from mcp_myguides.config import get_settings
 
-_guide_repository_instance: Optional['GuideRepository'] = None
-
+@lru_cache
 def get_guide_repository_instance() -> 'GuideRepository':
-    global _guide_repository_instance
-    if _guide_repository_instance is None:
-        _guide_repository_instance = GuideRepository()
-        _guide_repository_instance.load()
-    return _guide_repository_instance
+    return GuideRepository()
 
 class GuideRepository:
     """
@@ -24,20 +18,12 @@ class GuideRepository:
     """
     def __init__(self):
         settings = get_settings()
-        
-        # Determine if running from installed package or development environment
-        # This is a heuristic: if the guides_yaml_path from settings is a file,
-        # assume development/test. Otherwise, try to load from package resources.
-        if settings.guides_yaml_path.is_file():
-            self.guides_yaml_path = settings.guides_yaml_path
-            self.base_path = settings.GUIDES_BASE_PATH
-        else:
-            # Assume running from an installed package, load from resources
-            self.guides_yaml_path = importlib.resources.files(mcp_myguides) / "guides" / settings.GUIDES_YAML_FILENAME
-            self.base_path = importlib.resources.files(mcp_myguides) / "guides"
-
+        self.guides_yaml_path = settings.guides_yaml_path
+        self.base_path = settings.GUIDES_BASE_PATH
         self.guides: Dict[str, GuideMetadata] = {}
         self.content_cache: Dict[str, str] = {}
+
+        self.load()
 
     def load(self):
         """
@@ -102,4 +88,14 @@ class GuideRepository:
             content = await self.get_guide_content(metadata.id)
             if content:
                 contents.append(content)
-        return "\n\n---\n\n".join(contents)
+        return "\n---\n\n".join(contents)
+
+    async def get_guide(self, guide_id: str) -> Optional[Guide]:
+        """
+        Retrieves a full guide object (metadata + content) by its ID.
+        """
+        metadata = self.get_guide_metadata(guide_id)
+        if not metadata:
+            return None
+        content = await self.get_guide_content(guide_id)
+        return Guide(metadata=metadata, content=content)

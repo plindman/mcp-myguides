@@ -28,18 +28,18 @@ async def test_non_existent_guide_resource(mcp_client: Client):
     assert resource_content_list[0].text == ""
 
 @pytest.mark.asyncio
-async def test_get_guides_content_by_topic_tool(mcp_client: Client):
-    """Tests getting combined guide content by a specific topic."""
-    response = await mcp_client.call_tool("get_guides_content_by_topic", arguments={"topic": "testing"})
+async def test_get_guides_content_by_tags_tool(mcp_client: Client):
+    """Tests getting combined guide content by a specific tag."""
+    response = await mcp_client.call_tool("get_guides_content_by_tags", arguments={"tags": ["testing"]})
     content = response.content[0].text
 
     assert isinstance(content, str)
     assert "This is a sample guide for testing purposes." in content
 
 @pytest.mark.asyncio
-async def test_get_guides_content_by_non_existent_topic(mcp_client: Client):
-    """Tests that getting content for a non-existent topic returns an empty string."""
-    response = await mcp_client.call_tool("get_guides_content_by_topic", arguments={"topic": "non-existent-topic-xyz"})
+async def test_get_guides_content_by_non_existent_tag(mcp_client: Client):
+    """Tests that getting content for a non-existent tag returns an empty string."""
+    response = await mcp_client.call_tool("get_guides_content_by_tags", arguments={"tags": ["non-existent-tag-xyz"]})
     content = response.content[0].text
 
     assert isinstance(content, str)

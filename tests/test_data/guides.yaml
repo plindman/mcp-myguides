@@ -1,5 +1,5 @@
 - id: sample-guide-1
   name: Sample Guide 1
   description: A basic sample guide for testing.
-  topics: [general, testing]
+  tags: [general, testing]
   source: sample_guide_1.md

@@ -67,22 +67,32 @@ class GuideRepository:
         self.content_cache[guide_id] = content
         return content
 
-    def list_guides_metadata(self, topic: str = None) -> List[GuideMetadata]:
+    def list_guides_metadata(self, tags: List[str] = None) -> List[GuideMetadata]:
         """
-        Returns a list of guide metadata, optionally filtered by topic.
+        Returns a list of guide metadata, optionally filtered by a list of tags.
+        If multiple tags are provided, returns guides that have all of the tags.
         """
         guides_metadata = list(self.guides.values())
-        if topic:
+        if tags:
             return [
-                guide for guide in guides_metadata if topic in guide.topics
+                guide for guide in guides_metadata if all(tag in guide.tags for tag in tags)
             ]
         return guides_metadata
 
-    async def get_guides_content_by_topic(self, topic: str) -> str:
+    def list_tags(self) -> List[str]:
         """
-        Returns the concatenated content of all guides with the given topic, loading lazily.
+        Returns a list of all unique tags from all guides.
         """
-        filtered_guides_metadata = self.list_guides_metadata(topic=topic)
+        all_tags = set()
+        for guide in self.guides.values():
+            all_tags.update(guide.tags)
+        return sorted(list(all_tags))
+
+    async def get_guides_content_by_tags(self, tags: List[str]) -> str:
+        """
+        Returns the concatenated content of all guides with the given tags, loading lazily.
+        """
+        filtered_guides_metadata = self.list_guides_metadata(tags=tags)
         contents = []
         for metadata in filtered_guides_metadata:
             content = await self.get_guide_content(metadata.id)

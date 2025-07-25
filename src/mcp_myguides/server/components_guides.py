@@ -1,3 +1,4 @@
+import logging
 from fastmcp import FastMCP
 from mcp_myguides.services.guide_repository import get_guide_repository_instance
 from mcp_myguides.core.models import GuideMetadata
@@ -7,6 +8,7 @@ def register_guides_components(app: FastMCP) -> None:
     
     @app.tool
     async def list_guides(topic: str = None) -> List[GuideMetadata]:
+        logging.info(f"Listing guides for topic: {topic}")
         return get_guide_repository_instance().list_guides_metadata(topic=topic)
 
     @app.tool

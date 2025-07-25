@@ -2,7 +2,7 @@
   name: Python Development Guidelines Overview
   description: A high-level introduction to all Python development guidelines, summarizing key areas and providing links to detailed guides.
   tags: [python, python/overview, general]
-  source: python/overview.md
+  source: python/_overview.md
 - id: python-documentation
   name: Python Documentation Guidelines
   description: Guidelines for documenting Python projects, including user, internal, and API documentation.

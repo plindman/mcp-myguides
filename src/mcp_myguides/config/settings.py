@@ -12,12 +12,7 @@ class AppSettings(BaseSettings):
 
     APP_NAME: str = "MCP MyGuides"
     APP_INSTRUCTIONS: str = "You are a helpful assistant that provides information from guides."
-    GUIDES_YAML_FILENAME: str = "guides.yaml"
-    GUIDES_BASE_PATH: Path = Field(default_factory=lambda: Path(__file__).parent.parent / "guides")
-
-    @property
-    def guides_yaml_path(self) -> Path:
-        return self.GUIDES_BASE_PATH / self.GUIDES_YAML_FILENAME
+    GUIDES_ROOT_PATH: Path = Field(default_factory=lambda: Path(__file__).parent.parent / "guides")
 
 @lru_cache
 def get_settings() -> AppSettings:

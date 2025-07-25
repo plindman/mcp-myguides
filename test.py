@@ -12,16 +12,13 @@ mcp_client = Client(mcp_server)
 async def call_tool():
 
     settings = get_settings()
-    print(settings.GUIDES_BASE_PATH)
+    print(settings.GUIDES_ROOT_PATH)
 
     async with mcp_client:
 
         await mcp_client.ping()
 
-        # tools = await mcp_client.list_tools()
-        # print(tools)
-
-        result = await mcp_client.call_tool("list_guides")
+        result = await mcp_client.call_tool("list_tags")
         print(result)
 
 asyncio.run(call_tool())

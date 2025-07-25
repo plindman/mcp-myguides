@@ -18,8 +18,7 @@ class GuideRepository:
     """
     def __init__(self):
         settings = get_settings()
-        self.guides_yaml_path = settings.guides_yaml_path
-        self.base_path = settings.GUIDES_BASE_PATH
+        self.guides_root_path = settings.GUIDES_ROOT_PATH
         self.guides: Dict[str, GuideMetadata] = {}
         self.content_cache: Dict[str, str] = {}
 
@@ -27,24 +26,32 @@ class GuideRepository:
 
     def load(self):
         """
-        Parses the guides.yaml file and loads only guide metadata into memory.
-        Content is loaded lazily.
+        Parses all guides.yaml files found recursively within GUIDES_ROOT_PATH
+        and loads guide metadata into memory. Content is loaded lazily.
         """
-        # Ensure the file exists before trying to open it
-        if not self.guides_yaml_path.is_file():
-            print(f"Error: guides.yaml not found at {self.guides_yaml_path}")
-            return
-
-        with open(self.guides_yaml_path, 'r') as f:
-            config = yaml.safe_load(f)
-
-        for entry in config:
+        for guides_yaml_path in self.guides_root_path.rglob('guides.yaml'):
             try:
-                metadata = GuideMetadata(**entry)
-            except ValidationError as e:
-                print(f"Warning: Skipping invalid guide entry: {entry}. Error: {e}")
+                with open(guides_yaml_path, 'r') as f:
+                    config = yaml.safe_load(f)
+                if config is None: # Handle empty YAML files
+                    continue
+            except FileNotFoundError:
+                print(f"Warning: guides.yaml not found at {guides_yaml_path}")
                 continue
-            self.guides[metadata.id] = metadata
+            except yaml.YAMLError as e:
+                print(f"Warning: Error parsing YAML file {guides_yaml_path}: {e}")
+                continue
+
+            for entry in config:
+                try:
+                    metadata = GuideMetadata(**entry)
+                except ValidationError as e:
+                    print(f"Warning: Skipping invalid guide entry in {guides_yaml_path}: {entry}. Error: {e}")
+                    continue
+                if metadata.id in self.guides:
+                    print(f"Warning: Duplicate guide ID '{metadata.id}' found in {guides_yaml_path}. Skipping.")
+                    continue
+                self.guides[metadata.id] = metadata
 
     def get_guide_metadata(self, guide_id: str) -> Optional[GuideMetadata]:
         """

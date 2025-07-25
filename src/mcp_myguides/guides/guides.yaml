@@ -8,3 +8,8 @@
   description: Official quickstart guide for FastMCP.
   tags: [fastmcp, quickstart, mcp]
   source: https://modelcontextprotocol.io/quickstart/server
+- id: google-python-style-guide
+  name: Google Python Style Guide
+  description: A comprehensive set of "dos and don'ts" for Python programs, primarily used at Google, covering language rules and style conventions.
+  tags: [python, style-guide, best-practices, linting]
+  source: https://google.github.io/styleguide/pyguide.html

@@ -3,3 +3,8 @@
   description: A basic sample guide for testing.
   tags: [general, testing]
   source: sample_guide_1.md
+- id: google-python-style-guide
+  name: Google Python Style Guide
+  description: A comprehensive set of "dos and don'ts" for Python programs, primarily used at Google, covering language rules and style conventions.
+  tags: [python, style-guide, best-practices, linting]
+  source: https://google.github.io/styleguide/pyguide.html

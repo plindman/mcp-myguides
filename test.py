@@ -9,7 +9,7 @@ from fastmcp import Client
 
 mcp_client = Client(mcp_server)
 
-async def call_tool(name: str):
+async def call_tool():
 
     settings = get_settings()
     print(settings.GUIDES_BASE_PATH)
@@ -21,10 +21,7 @@ async def call_tool(name: str):
         # tools = await mcp_client.list_tools()
         # print(tools)
 
-        result = await mcp_client.call_tool("health")
-        print(result.content[0].text)
-
         result = await mcp_client.call_tool("list_guides")
         print(result)
 
-asyncio.run(call_tool("Ford"))
+asyncio.run(call_tool())

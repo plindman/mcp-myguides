@@ -1,6 +1,6 @@
 # End-to-End Testing with Playwright
 
-Playwright is an open-source automation library developed by Microsoft for testing web applications. It enables reliable end-to-end testing across modern browsers with a single API. 
+Playwright is primarily used for testing web applications. It is an open-source automation library developed by Microsoft for testing web applications. It enables reliable end-to-end testing across modern browsers with a single API. 
 The Python version supports Chromium, Firefox, and WebKit, making it a robust alternative to Selenium or other legacy tools.
 
 **Best Practices**
@@ -17,7 +17,7 @@ For more detailed guidance on using Playwright with Python, refer to the officia
 
    ```bash
    uv add --dev pytest-playwright
-   playwright install
+   uv run playwright install # Installs browser binaries
    ```
 
 **Running Tests**

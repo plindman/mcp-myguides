@@ -1,7 +1,7 @@
 # General Guidelines for Python Development
 
 ## Summary
-[TODO]
+These guidelines provide a comprehensive framework for Python development, covering best practices in documentation, efficient environment and dependency management with `uv`, preferred libraries for various tasks, robust security practices including secrets management and static analysis, adherence to source code standards (style, type hints, docstrings), and a strong emphasis on test-first development, including unit, integration, and end-to-end testing. They also outline scenarios where deviations are acceptable and critical 'red lines' that must never be crossed.
 
 ## When to Deviate from Guidelines
 

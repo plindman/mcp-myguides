@@ -1,4 +1,4 @@
-## uv for efficient project and environment management
+# uv for efficient project and environment management
 Create a new project using `uv`. 
 Assume `uv` is already installed. 
 Run `uv init` in an empty directory to create a basic project with its pyproject.toml. If you're developing a reusable Python package, specifically use `uv init --lib`.

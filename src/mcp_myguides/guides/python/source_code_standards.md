@@ -50,20 +50,7 @@ def get_user_id(user: User) -> int:
     return user.id
 ```
 
-### Quality Checks
 
-- `ruff` is our linter and formatter, enforcing code style and catching common issues quickly.
-- `mypy` supports robust type-checking and type annotation, helping us maintain code clarity and correctness. 
-- `bandit`: For identifying common security vulnerabilities, Bandit helps us maintain a secure codebase.
-
-Together, these tools help us maintain high code quality and follow best practices efficiently.
-
-If any required tools (`ruff`, `pytest`, `mypy`, etc.) are missing from your local environment, install them as **development dependencies** using:
-```bash
-uv add --dev pytest ruff ty bandit
-```
-
-Do not add these tools to the production dependencies.
 
 ### Code Formatting and Linting using ruff 
 

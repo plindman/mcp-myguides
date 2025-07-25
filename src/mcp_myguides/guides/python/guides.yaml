@@ -1,45 +1,45 @@
 - id: python-overview
   name: Python Development Guidelines Overview
   description: A high-level introduction to all Python development guidelines, summarizing key areas and providing links to detailed guides.
-  tags: [python, overview, general]
+  tags: [python, python/overview, general]
   source: python/overview.md
 - id: python-documentation
   name: Python Documentation Guidelines
   description: Guidelines for documenting Python projects, including user, internal, and API documentation.
-  tags: [python, documentation, mkdocs]
+  tags: [python, python/documentation, python/mkdocs]
   source: python/docs.md
 - id: python-environment-management
   name: Python Environment and Dependency Management with uv
   description: Best practices for managing Python environments and dependencies using uv, including dependency categories and conflict resolution.
-  tags: [python, environment-management, uv, dependencies]
+  tags: [python, python/environment-management, python/uv, python/dependencies]
   source: python/environment management.md
 - id: python-general-guidelines
   name: General Python Development Guidelines
   description: General principles for Python development, outlining acceptable deviations and critical red lines.
-  tags: [python, general, best-practices]
+  tags: [python, python/general, best-practices]
   source: python/general.md
 - id: python-preferred-libraries
   name: Python Preferred Libraries
   description: A list of preferred Python libraries for application development, testing, and development tools.
-  tags: [python, libraries, recommendations]
+  tags: [python, python/libraries, recommendations]
   source: python/libraries.md
 - id: python-security
   name: Python Security Guidelines
   description: Best practices for secrets and configuration management, and security analysis in Python projects.
-  tags: [python, security, secrets, bandit]
+  tags: [python, python/security, python/secrets, python/bandit]
   source: python/security.md
 - id: python-source-code-standards
   name: Python Source Code Standards
   description: Standards for Python code quality, including coding style, source documentation, and quality checks with ruff and mypy.
-  tags: [python, code-standards, style, ruff, mypy, docstrings]
+  tags: [python, python/code-standards, python/style, python/ruff, python/mypy, python/docstrings]
   source: python/source_code_standards.md
 - id: python-e2e-testing-playwright
   name: Python End-to-End Testing with Playwright
   description: Guidelines for performing end-to-end testing of web applications using Playwright in Python.
-  tags: [python, testing, e2e, playwright]
+  tags: [python, python/testing, python/e2e, python/playwright]
   source: python/testing_e2e_playwright.md
 - id: python-testing
   name: Python Testing Philosophy and Practices
   description: Comprehensive guidelines on Python testing philosophy, test-driven development, coverage targets, and test structure.
-  tags: [python, testing, pytest, tdd]
+  tags: [python, python/testing, python/pytest, python/tdd]
   source: python/testing.md

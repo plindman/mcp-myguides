@@ -37,10 +37,15 @@ async def test_get_guides_content_by_tags_tool(mcp_client: Client):
     assert "This is a sample guide for testing purposes." in content
 
 @pytest.mark.asyncio
-async def test_get_guides_content_by_non_existent_tag(mcp_client: Client):
-    """Tests that getting content for a non-existent tag returns an empty string."""
-    response = await mcp_client.call_tool("get_guides_content_by_tags", arguments={"tags": ["non-existent-tag-xyz"]})
+async def test_fetch_remote_guide(mocker, mcp_client: Client):
+    """Tests fetching content from a remote guide URL."""
+    mock_response = mocker.Mock()
+    mock_response.text = "Content from Google Python Style Guide"
+    mock_response.raise_for_status.return_value = None
+    mocker.patch("httpx.AsyncClient.get", return_value=mock_response)
+
+    response = await mcp_client.call_tool("get_guides_content_by_tags", arguments={"tags": ["style-guide"]})
     content = response.content[0].text
 
     assert isinstance(content, str)
-    assert content == ""
+    assert "Content from Google Python Style Guide" in content

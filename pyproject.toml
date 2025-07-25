@@ -14,6 +14,7 @@ dependencies = [
     "pytest-asyncio>=1.1.0",
     "pydantic-settings>=2.10.1",
     "rich>=14.0.0",
+    "pytest-mock",
 ]
 
 [tool.pytest.ini_options]

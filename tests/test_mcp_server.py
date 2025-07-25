@@ -11,7 +11,7 @@ async def test_app_common(mcp_server):
     assert server.settings is not None
 
     settings = server.settings
-    base_path = settings.GUIDES_BASE_PATH
-    print(base_path)
-    assert base_path is not None
-    assert base_path.exists()
+    root_path = settings.GUIDES_ROOT_PATH
+    print(root_path)
+    assert root_path is not None
+    assert root_path.exists()

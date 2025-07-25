@@ -70,7 +70,7 @@ class GuideRepository:
         if not metadata:
             return ""
 
-        content = await load_guide_content(metadata.source, self.base_path)
+        content = await load_guide_content(metadata.source, self.guides_root_path)
         self.content_cache[guide_id] = content
         return content
 

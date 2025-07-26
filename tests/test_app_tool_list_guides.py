@@ -22,7 +22,7 @@ async def test_list_guides_tool(mcp_client: Client):
     filtered_guides = json.loads(response_filtered.content[0].text)
     
     assert isinstance(filtered_guides, list)
-    assert len(filtered_guides) == 1
+    assert len(filtered_guides) == 2
     assert filtered_guides[0]["id"] == "sample-guide-1"
     assert "testing" in filtered_guides[0]["tags"]
 

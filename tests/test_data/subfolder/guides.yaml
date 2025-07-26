@@ -1,0 +1,5 @@
+- id: sub-guide
+  name: Subfolder Guide
+  description: A guide located in a subfolder.
+  tags: [subfolder, testing]
+  source: sub_guide.md

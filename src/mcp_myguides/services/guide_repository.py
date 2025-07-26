@@ -1,6 +1,6 @@
 import yaml
 from pathlib import Path
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Tuple
 from pydantic import ValidationError
 from functools import lru_cache
 from mcp_myguides.core.models import GuideMetadata, Guide
@@ -19,7 +19,7 @@ class GuideRepository:
     def __init__(self):
         settings = get_settings()
         self.guides_root_path = settings.GUIDES_ROOT_PATH
-        self.guides: Dict[str, GuideMetadata] = {}
+        self.guides: Dict[str, Tuple[GuideMetadata, Path]] = {}
         self.content_cache: Dict[str, str] = {}
 
         self.load()
@@ -30,6 +30,7 @@ class GuideRepository:
         and loads guide metadata into memory. Content is loaded lazily.
         """
         for guides_yaml_path in self.guides_root_path.rglob('guides.yaml'):
+            current_base_path = guides_yaml_path.parent
             try:
                 with open(guides_yaml_path, 'r') as f:
                     config = yaml.safe_load(f)
@@ -51,13 +52,20 @@ class GuideRepository:
                 if metadata.id in self.guides:
                     print(f"Warning: Duplicate guide ID '{metadata.id}' found in {guides_yaml_path}. Skipping.")
                     continue
-                self.guides[metadata.id] = metadata
+                self.guides[metadata.id] = (metadata, current_base_path)
+
+    def _get_guide_tuple(self, guide_id: str) -> Optional[Tuple[GuideMetadata, Path]]:
+        """
+        Retrieves a single guide's metadata and its base path by its ID.
+        """
+        return self.guides.get(guide_id)
 
     def get_guide_metadata(self, guide_id: str) -> Optional[GuideMetadata]:
         """
         Retrieves a single guide's metadata by its ID.
         """
-        return self.guides.get(guide_id)
+        guide_tuple = self._get_guide_tuple(guide_id)
+        return guide_tuple[0] if guide_tuple else None
 
     async def get_guide_content(self, guide_id: str) -> str:
         """
@@ -66,11 +74,12 @@ class GuideRepository:
         if guide_id in self.content_cache:
             return self.content_cache[guide_id]
 
-        metadata = self.get_guide_metadata(guide_id)
-        if not metadata:
+        guide_tuple = self._get_guide_tuple(guide_id)
+        if not guide_tuple:
             return ""
+        metadata, base_path = guide_tuple
 
-        content = await load_guide_content(metadata.source, self.guides_root_path)
+        content = await load_guide_content(metadata.source, base_path)
         self.content_cache[guide_id] = content
         return content
 
@@ -79,7 +88,7 @@ class GuideRepository:
         Returns a list of guide metadata, optionally filtered by a list of tags.
         If multiple tags are provided, returns guides that have all of the tags.
         """
-        guides_metadata = list(self.guides.values())
+        guides_metadata = [guide_tuple[0] for guide_tuple in self.guides.values()]
         if tags:
             return [
                 guide for guide in guides_metadata if all(tag in guide.tags for tag in tags)
@@ -91,8 +100,8 @@ class GuideRepository:
         Returns a list of all unique tags from all guides.
         """
         all_tags = set()
-        for guide in self.guides.values():
-            all_tags.update(guide.tags)
+        for guide_tuple in self.guides.values():
+            all_tags.update(guide_tuple[0].tags)
         return sorted(list(all_tags))
 
     async def get_guides_content_by_tags(self, tags: List[str]) -> str:

@@ -1,0 +1,20 @@
+- id: git-commit-messages
+  name: Git Commit Message Guidelines
+  description: Best practices for writing clear and structured commit messages.
+  tags: [git, git/commit-messages]
+  source: git/commit_messages.md
+- id: git-gitignore
+  name: Git .gitignore Guidelines
+  description: How to manage the .gitignore file to keep the repository clean.
+  tags: [git, git/gitignore]
+  source: git/gitignore.md
+- id: git-merging
+  name: Git Merging Guidelines
+  description: Recommended practices for merging branches and resolving conflicts.
+  tags: [git, git/merging]
+  source: git/merging.md
+- id: git-workflow
+  name: Git Workflow Guidelines
+  description: Our simple Git workflow focused on local branches and direct merges into main.
+  tags: [git, git/workflow]
+  source: git/workflow.md

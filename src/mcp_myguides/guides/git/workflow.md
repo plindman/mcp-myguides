@@ -1,8 +1,8 @@
-# Git Workflow
+## Git Workflow
 
 We use a simple Git workflow focused on **local branches and direct merges into `main`**.
 
-## ✅ Typical Git Workflow
+### Typical Git Workflow
 
 ```bash
 # 1. Update main

@@ -1,4 +1,4 @@
-### Managing .gitignore:
+## Managing .gitignore
 
 The .gitignore file specifies intentionally untracked files that Git should ignore. A well-maintained .gitignore is crucial for keeping the repository clean and free of unnecessary or sensitive files.
 

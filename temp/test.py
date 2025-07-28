@@ -21,4 +21,8 @@ async def call_tool():
         result = await mcp_client.call_tool("get_guides_content_by_tags", {"tags": ['python', 'python/overview']})
         print(result)
 
+        result = await mcp_client.call_tool("get_guides_content_by_tags", {"tags": ['git', 'git/overview']})
+        print(result)
+      
+
 asyncio.run(call_tool())

@@ -1,30 +1,30 @@
 - id: git-overview
   name: Git Overview
   description: An overview of Git concepts and our team's Git practices.
-  tags: [git, overview]
-  source: git/_overview.md
+  tags: [git, git/overview]
+  source: _overview.md
 - id: git-gitignore
   name: Git .gitignore Guidelines
   description: How to manage the .gitignore file to keep the repository clean.
   tags: [git, git/gitignore]
-  source: git/gitignore.md
+  source: gitignore.md
 - id: git-workflow
   name: Git Workflow Guidelines
   description: Our simple Git workflow focused on local branches and direct merges into main.
   tags: [git, git/workflow]
-  source: git/workflow.md
+  source: workflow.md
 - id: git-commit-messages
   name: Git Commit Message Guidelines
   description: Best practices for writing clear and structured commit messages.
   tags: [git, git/commit-messages]
-  source: git/commit_messages.md
+  source: commit_messages.md
 - id: git-merging
   name: Git Merging Guidelines
   description: Recommended practices for merging branches and resolving conflicts.
   tags: [git, git/merging]
-  source: git/merging.md
+  source: merging.md
 - id: git-troubleshooting
   name: Git Troubleshooting
   description: Solutions to common Git issues and how to recover from mistakes.
   tags: [git, git/troubleshooting]
-  source: git/troubleshooting.md
+  source: troubleshooting.md

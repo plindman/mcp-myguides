@@ -16,7 +16,13 @@ async def call_tool():
 
     async with mcp_client:
 
-        await mcp_client.ping()
+        # await mcp_client.ping()
+
+        result = await mcp_client.call_tool("list_tags")
+        print(result)
+
+        result = await mcp_client.call_tool("list_guides")
+        print(result)
 
         result = await mcp_client.call_tool("get_guides_content_by_tags", {"tags": ['python', 'python/overview']})
         print(result)
